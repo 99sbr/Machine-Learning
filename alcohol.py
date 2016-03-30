@@ -1,4 +1,7 @@
 from sklearn import linear_model
+from sklearn import preprocessing
+from sklearn import cross_validation
+from sklearn import svm
 import matplotlib.pyplot as plt
 import matplotlib
 matplotlib.style.use('ggplot')
@@ -8,6 +11,7 @@ import pandas as pd
 loc="student-mat.csv"
 data=pd.read_csv(loc,delimiter=';')
 matdata=pd.DataFrame(data)
+
 
 del matdata['famsize']
 del matdata['Mjob']
@@ -46,8 +50,8 @@ matdata.loc[matdata['famsup']=='no','schoolsup']=1
 matdata.loc[matdata['activities']=='yes','activities']=0
 matdata.loc[matdata['activities']=='no','activities']=1
 
-#matdata.loc[matdata['paidclass']=='yes','paidclass']=1
-#matdata.loc[matdata['paidclass']=='no','paidclass']=0
+matdata.loc[matdata['paid']=='yes','paid']=1
+matdata.loc[matdata['paid']=='no','paid']=0
 
 matdata.loc[matdata['nursery']=='yes','nursery']=0
 matdata.loc[matdata['nursery']=='no','nursery']=1
@@ -84,20 +88,17 @@ for i in range(len(matdata)):
     else:
         matdata.loc[i,'studytime']=4
 
-matdata.tail()
+
 y = matdata.alc
 x=matdata.drop(['alc'],axis=1)
-X_train, X_test, y_train, y_test = train_test_split(x, y, random_state=0)
+X_train, X_test, y_train, y_test = cross_validation.train_test_split(x, y, test_size=0.01, random_state=0)
+clf = svm.SVC(kernel='linear', C=.001).fit(X_train, y_train)
+y_pred=clf.predict(X_test)
 
-X_train.to_csv("X_train.csv",header=)
-X_test.to_csv("X_test.csv")
-y_train.to_csv("y_train.csv")
-y_test.to_csv("y_test.csv")
+print('Coefficients: \n', clf.coef_)
+# The mean square error
+print("Residual sum of squares: %.2f"
+      % np.mean((clf.predict(X_test) - y_test) ** 2))
+# Explained variance score: 1 is perfect prediction
+print('Variance score: %.2f' % clf.score(X_test, y_test))
 
-from sklearn.ensemble import RandomForestClassifier
-feat_labels = X_train.columns
-forest = RandomForestClassifier(n_estimators=10000, random_state=0, n_jobs=-1)
-forest.fit(X_train, y_train)
-importances = forest.feature_importances_
-indices = np.argsort(importances)[::-1]
-importances
