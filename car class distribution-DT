@@ -1,0 +1,50 @@
+import pandas as pd
+from sklearn import linear_model
+import numpy as np
+from sklearn import cross_validation
+from sklearn.cross_validation import train_test_split
+import matplotlib.pyplot as plt
+loc="car.data.txt"
+data=pd.read_csv(loc,delimiter=',',names=['buying','maint','doors','persons','lug_boot','safety','Class'],encoding='latin-1')
+cardata=pd.DataFrame(data=data)
+cardata.loc[cardata['buying']=='vhigh','buying']=4
+cardata.loc[cardata['buying']=='high','buying']=3
+cardata.loc[cardata['buying']=='med','buying']=2
+cardata.loc[cardata['buying']=='low','buying']=1
+
+cardata.loc[cardata['maint']=='vhigh','maint']=4
+cardata.loc[cardata['maint']=='high','maint']=3
+cardata.loc[cardata['maint']=='med','maint']=2
+cardata.loc[cardata['maint']=='low','maint']=1
+
+cardata.loc[cardata['doors']=='5more','doors']=5
+cardata.loc[cardata['persons']=='more','persons']=10
+
+cardata.loc[cardata['lug_boot']=='small','lug_boot']=1
+cardata.loc[cardata['lug_boot']=='med','lug_boot']=2
+cardata.loc[cardata['lug_boot']=='big','lug_boot']=3
+
+cardata.loc[cardata['safety']=='low','safety']=1
+cardata.loc[cardata['safety']=='med','safety']=2
+cardata.loc[cardata['safety']=='high','safety']=3
+
+cardata.loc[cardata['Class']=='unacc','Class']=1
+cardata.loc[cardata['Class']=='acc','Class']=2
+cardata.loc[cardata['Class']=='good','Class']=3
+cardata.loc[cardata['Class']=='vgood','Class']=4
+
+y = cardata.Class
+x=cardata.drop(['Class'],axis=1)
+
+X_train, X_test, y_train, y_test = cross_validation.train_test_split(x, y, test_size=1, random_state=80)
+from sklearn import tree
+clf = tree.DecisionTreeClassifier()
+clf = clf.fit(X_train.astype(int), y_train.astype(int))
+y_pred=clf.predict(X_test)
+
+print("Residual sum of squares: %.2f"
+      % np.mean((clf.predict(X_test) - y_test) ** 2))
+# Explained variance score: 1 is perfect prediction
+print('Variance score: %.2f' % clf.score(X_test.astype(int), y_test.astype(int)))
+plt.plot(y_pred,y_test)
+plt.show()
