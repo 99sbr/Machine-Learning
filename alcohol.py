@@ -96,6 +96,7 @@ alc=pd.DataFrame(result.alc, columns=['alc'])
 
 
 
+
 del result['Dalc']
 del result['Walc']
 result=pd.concat([result,alc],axis=1)
@@ -104,17 +105,17 @@ result.loc[result['alc']>=3,'alc']=1
 
 y = result.alc
 x=result.drop(['alc'],axis=1)
-X_train, X_test, y_train, y_test = cross_validation.train_test_split(x, y, test_size=0.1, random_state=0)
-clf = svm.SVC(kernel='linear', C=0.001).fit(X_train, y_train)
+X_train, X_test, y_train, y_test = cross_validation.train_test_split(x, y, test_size=0.1, random_state=40)
+clf = svm.SVC(kernel='poly',degree=3, C=0.001).fit(X_train, y_train)
 y_pred=clf.predict(X_test)
 
-print('Coefficients: \n', clf.coef_)
+#print('Coefficients: \n', clf.coef_)
 # The mean square error
 print("Residual sum of squares: %.2f"
       % np.mean((clf.predict(X_test) - y_test) ** 2))
 # Explained variance score: 1 is perfect prediction
 print('Variance score: %.2f' % clf.score(X_test, y_test))
-
+plt.plot(y_pred,y_test)
 
 
 
