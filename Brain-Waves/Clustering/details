@@ -1,0 +1,10 @@
+Asset Clusterin.py is the main file.
+We careated pivot table including both train and test data set as the time was in continuation by removing 'Y
+
+(1) Data was initially put through outlier detection. We tried to detect oulier asset wise i.e for a specific time getting all the stock values and 
+ the treating the outliersinstead of removing the outlers substituted it with the Quartile3+1.5*IQR/ Quartile1+1.5*IQR
+
+(2) We tried to normalize the data with 'L2' norm with zero mean and well spread variance
+(3) Then we calculated the correlation matrix and applied hierarchial clustering using k-mean to find out optimum number of clusters
+
+Note: clustering.ipynb is rough file
