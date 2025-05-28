@@ -1,0 +1,25 @@
+Customer Classification/Data/Customer_Demographics.xlsx
+.DS_Store
+**/.DS_Store
+**/*.csv
+**/*.xlsx
+**/*.txt
+**/*.tsv
+**/*.pkl
+**/*.pth
+**/*.pt
+**/*.pkl.gz
+**/*.pkl.bz2
+**/*.pkl.xz
+**/*.pkl.zip
+**/*.pkl.tar
+**/*.pkl.tar.gz
+**/*.pkl.tar.bz2
+**/*.pkl.tar.xz
+**/*.pkl.tar.zip
+**/*.pkl.tar.tar.gz
+**/*.pkl.tar.tar.bz2
+Novartis/.DS_Store
+Novartis/submission_stacker.csv
+Novartis/catboost_info/time_left.tsv
+
